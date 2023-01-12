@@ -1,0 +1,8 @@
+{
+    "input": "C:/Users/meghana.tanikonda/Documents/Robocorp/School info bots dna/School info.xlsx",
+    "sheet_name": "Sheet1",
+    "Browser": "https://botsdna.com/school/",
+    "recipients": "meghana.tanikonda@yash.com",
+    "Subject": "Exception_Mail",
+    "Body": "Log failed Exception occured"
+}

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 5.0.1 (Python 3.9.13 on win32)" generated="20230111 17:34:47.080" rpa="true" schemaversion="3">
+<suite id="s1" name="Producer" source="c:\Users\meghana.tanikonda\Documents\Robocorp\School info bots dna\Producer.robot">
+<test id="s1-t1" name="Minimal task" line="17">
+<kw name="Open Application" library="RPA.Outlook.Application" type="SETUP">
+<doc>Open the Outlook application.</doc>
+<status status="PASS" starttime="20230111 17:34:51.806" endtime="20230111 17:34:54.502"/>
+</kw>
+<try>
+<branch type="TRY">
+<kw name="Load JSON from file" library="RPA.JSON">
+<var>${config}</var>
+<arg>config.json</arg>
+<doc>Load JSON data from a file, and return it as JSON serializable object.
+Depending on the input file the object can be either a dictionary,
+a list, or a scalar value.</doc>
+<msg timestamp="20230111 17:34:54.513" level="INFO">Loading JSON from file: config.json</msg>
+<msg timestamp="20230111 17:34:54.531" level="INFO">${config} = {'input': 'C:/Users/meghana.tanikonda/Documents/Robocorp/School info bots dna/School info.xlsx', 'sheet_name': 'Sheet1', 'Browser': 'https://botsdna.com/school/', 'recipients': 'meghana.tanikonda@yash...</msg>
+<status status="PASS" starttime="20230111 17:34:54.510" endtime="20230111 17:34:54.532"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${input_excel}</var>
+<arg>${config}[input]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230111 17:34:54.533" level="INFO">${input_excel} = C:/Users/meghana.tanikonda/Documents/Robocorp/School info bots dna/School info.xlsx</msg>
+<status status="PASS" starttime="20230111 17:34:54.532" endtime="20230111 17:34:54.533"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${sheet_name}</var>
+<arg>${config}[sheet_name]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230111 17:34:54.534" level="INFO">${sheet_name} = Sheet1</msg>
+<status status="PASS" starttime="20230111 17:34:54.533" endtime="20230111 17:34:54.534"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${recipients}</var>
+<arg>${config}[recipients]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230111 17:34:54.540" level="INFO">${recipients} = meghana.tanikonda@yash.com</msg>
+<status status="PASS" starttime="20230111 17:34:54.534" endtime="20230111 17:34:54.541"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${Subject}</var>
+<arg>${config}[Subject]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230111 17:34:54.546" level="INFO">${Subject} = Exception_Mail</msg>
+<status status="PASS" starttime="20230111 17:34:54.542" endtime="20230111 17:34:54.549"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${Body}</var>
+<arg>${config}[Body]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230111 17:34:54.550" level="INFO">${Body} = Log failed Exception occured</msg>
+<status status="PASS" starttime="20230111 17:34:54.549" endtime="20230111 17:34:54.550"/>
+</kw>
+<kw name="Read excel">
+<var>${table}</var>
+<arg>${input_excel}</arg>
+<arg>${sheet_name}</arg>
+<arg>${recipients}</arg>
+<arg>${Subject}</arg>
+<arg>${Body}</arg>
+<kw name="Does File Exist" library="RPA.FileSystem">
+<var>${file_exist}</var>
+<arg>${input_excel}</arg>
+<doc>Returns True if the given file exists, False if not.</doc>
+<msg timestamp="20230111 17:34:54.561" level="INFO">${file_exist} = False</msg>
+<status status="PASS" starttime="20230111 17:34:54.551" endtime="20230111 17:34:54.565"/>
+</kw>
+<if>
+<branch type="IF" condition="${file_exist} == ${True}">
+<kw name="Open Workbook" library="RPA.Excel.Files">
+<arg>${input_excel}</arg>
+<doc>Open an existing Excel workbook.</doc>
+<status status="NOT RUN" starttime="20230111 17:34:54.566" endtime="20230111 17:34:54.567"/>
+</kw>
+<kw name="Read Worksheet As Table" library="RPA.Excel.Files">
+<var>${table}</var>
+<arg>${sheet_name}</arg>
+<arg>${True}</arg>
+<doc>Read the contents of a worksheet into a Table container. Allows
+sorting/filtering/manipulating using the ``RPA.Tables`` library.</doc>
+<status status="NOT RUN" starttime="20230111 17:34:54.567" endtime="20230111 17:34:54.568"/>
+</kw>
+<return>
+<value>${table}</value>
+<status status="NOT RUN" starttime="20230111 17:34:54.568" endtime="20230111 17:34:54.568"/>
+</return>
+<status status="NOT RUN" starttime="20230111 17:34:54.566" endtime="20230111 17:34:54.568"/>
+</branch>
+<branch type="ELSE">
+<kw name="Send Exception mail">
+<arg>${recipients}</arg>
+<arg>${Subject}</arg>
+<arg>${Body}</arg>
+<kw name="Send Message" library="RPA.Outlook.Application">
+<arg>recipients=${recipients}</arg>
+<arg>subject=${Subject}</arg>
+<arg>body=${Body}</arg>
+<doc>Send message with Outlook</doc>
+<msg timestamp="20230111 17:34:54.578" level="WARN">Keyword 'Send Message' is deprecated, and will be removed in a future version.Use 'Send Email' instead.</msg>
+<status status="PASS" starttime="20230111 17:34:54.573" endtime="20230111 17:34:58.949"/>
+</kw>
+<status status="PASS" starttime="20230111 17:34:54.569" endtime="20230111 17:34:58.950"/>
+</kw>
+<status status="PASS" starttime="20230111 17:34:54.569" endtime="20230111 17:34:58.950"/>
+</branch>
+<status status="PASS" starttime="20230111 17:34:54.566" endtime="20230111 17:34:58.951"/>
+</if>
+<msg timestamp="20230111 17:34:58.952" level="INFO">${table} = None</msg>
+<status status="PASS" starttime="20230111 17:34:54.550" endtime="20230111 17:34:58.952"/>
+</kw>
+<kw name="uploading WorkItems">
+<arg>${table}</arg>
+<for flavor="IN">
+<var>${row}</var>
+<value>@{table}</value>
+<msg timestamp="20230111 17:34:58.965" level="FAIL">Value of variable '@{table}' is not list or list-like.</msg>
+<status status="FAIL" starttime="20230111 17:34:58.959" endtime="20230111 17:34:58.966"/>
+</for>
+<status status="FAIL" starttime="20230111 17:34:58.953" endtime="20230111 17:34:58.968"/>
+</kw>
+<status status="FAIL" starttime="20230111 17:34:54.507" endtime="20230111 17:34:58.969"/>
+</branch>
+<branch type="EXCEPT">
+<pattern>message</pattern>
+<kw name="Log" library="BuiltIn">
+<arg>Excel Not found</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" starttime="20230111 17:34:58.977" endtime="20230111 17:34:58.983"/>
+</kw>
+<status status="NOT RUN" starttime="20230111 17:34:58.972" endtime="20230111 17:34:58.984"/>
+</branch>
+<status status="FAIL" starttime="20230111 17:34:54.506" endtime="20230111 17:34:58.984"/>
+</try>
+<status status="FAIL" starttime="20230111 17:34:51.802" endtime="20230111 17:34:58.998">Value of variable '@{table}' is not list or list-like.</status>
+</test>
+<kw name="Quit Application" library="RPA.Outlook.Application" type="TEARDOWN">
+<doc>Quit the application.</doc>
+<status status="PASS" starttime="20230111 17:34:59.018" endtime="20230111 17:34:59.026"/>
+</kw>
+<doc>Template robot main suite.</doc>
+<status status="FAIL" starttime="20230111 17:34:47.117" endtime="20230111 17:34:59.028"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tasks</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="Producer">Producer</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20230111 17:34:51.800" level="WARN">No input work items file found: None</msg>
+<msg timestamp="20230111 17:34:54.578" level="WARN">Keyword 'Send Message' is deprecated, and will be removed in a future version.Use 'Send Email' instead.</msg>
+<msg timestamp="20230111 17:34:59.000" level="ERROR">Releasing item '0' with FAILED state and exception: {'type': 'APPLICATION', 'code': None, 'message': "Value of variable '@{table}' is not list or list-like."}</msg>
+</errors>
+</robot>
